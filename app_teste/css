@@ -1,0 +1,33 @@
+/* Define a cor primária como azul */
+:root {
+  --primary: {{ app.config['PRIMARY_COLOR'] }};
+}
+
+/* Define a cor secundária como verde */
+:root {
+  --secondary: {{ app.config['SECONDARY_COLOR'] }};
+}
+
+/* Define a cor de fundo das páginas como branco */
+body {
+  background-color: #ffffff;
+}
+
+/* Define as cores dos botões e links */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: var(--secondary);
+}
