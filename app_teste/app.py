@@ -30,10 +30,10 @@ class RegistrationForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     password = PasswordField('Senha', validators=[DataRequired(message='insira uma senha'),
                                                   EqualTo('confirma', message='A confirmação de senha é inválida'),
-                                                  validators.Length(min=6, message='A senha deve ter pelo menos 6 caracteres')])
+                                                  validators.Length(min=8, message='A senha deve ter pelo menos 8 caracteres')])
     confirm_password = PasswordField('Confirmar Senha', validators=[DataRequired(message='insira uma senha'),
                                                   EqualTo('confirma', message='A confirmação de senha é inválida'),
-                                                  validators.Length(min=6, message='A senha deve ter pelo menos 6 caracteres')])
+                                                  validators.Length(min=8, message='A senha deve ter pelo menos 8 caracteres')])
     submit = SubmitField('Cadastrar')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -79,5 +79,8 @@ def reset_password():
 def reset_password_confirm():
     return render_template('reset_password_confirm.html')
 
+@app.route('/sobre')
+def sobre():
+    return render_template('sobre.html')
 if __name__ == '__main__':
     app.run(debug=True)
