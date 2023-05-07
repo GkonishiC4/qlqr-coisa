@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash,jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, Email, EqualTo
 from flask_mail import Mail, Message
-from flask_wtf import FlaskForm
 from wtforms import PasswordField, SubmitField, validators
 
 
@@ -75,12 +74,32 @@ def reset_password():
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
 
-@app.route('/reset_password_confirm')
+from flask import Flask, render_template, request, redirect, url_for, flash
+import re
+
+@app.route('/reset_password_confirm', methods=['GET', 'POST'])
 def reset_password_confirm():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+        
+        if password != confirm_password:
+            flash('As senhas não coincidem.')
+            return redirect(url_for('reset_password_confirm'))
+        
+        if not re.match(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*]).{8,}$', password):
+            flash('A senha deve ter no mínimo 8 caracteres, sendo 1 maiúscula, 1 minúscula e 1 caractere especial.')
+            return redirect(url_for('reset_password_confirm'))
+        
+        flash('Senha redefinida com sucesso.')
+        return redirect(url_for('success'))
+    
     return render_template('reset_password_confirm.html')
 
 @app.route('/sobre')
 def sobre():
     return render_template('sobre.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
